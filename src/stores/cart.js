@@ -15,6 +15,8 @@ export const useCartStore = defineStore('cart', () => {
     const taxes = ref(0)
     const total = ref(0)
 
+    const message = ref('')
+
     const MAX_PRODUCTS = 5
     const TAX_RATE = .10
 
@@ -77,6 +79,8 @@ export const useCartStore = defineStore('cart', () => {
             $reset()
             coupon.$reset()
 
+            showMessage()
+
         } catch (error) {
             console.log(error)
         }
@@ -87,6 +91,13 @@ export const useCartStore = defineStore('cart', () => {
         subtotal.value = 0
         taxes.value = 0
         total.value = 0
+    }
+
+    function showMessage() {
+        message.value = '¡Venta Exitosa!'
+        setTimeout(() => {
+            message.value = ''
+        }, 4000)
     }
 
     const isItemInCart = id => items.value.findIndex(item => item.id === id)
@@ -101,16 +112,20 @@ export const useCartStore = defineStore('cart', () => {
         return (product) => product.availability < 5 ?  product.availability : MAX_PRODUCTS
     })
 
+    const hasMessage = computed(() => message.value)
+
     return {
         items,
         subtotal,
         taxes,
         total,
+        message,
         addItem,
         updateQuantity,
         removeItem,
         checkout,
         isEmpty,
-        checkProductAvailability
+        checkProductAvailability,
+        hasMessage
     }
 })

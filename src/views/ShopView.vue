@@ -3,8 +3,11 @@
     import MainNav from '../components/MainNav.vue'
     import ProductCard from '../components/ProductCard.vue'
     import ShoppingCart from '../components/ShoppingCart.vue'
+    import Alert from '../components/Alert.vue'
     import { useProductsStore } from '../stores/products'
+    import { useCartStore } from '../stores/cart'
 
+    const cart = useCartStore()
     const products = useProductsStore()
     const { filteredProducts, noResults } = storeToRefs(products)
 </script>
@@ -33,5 +36,9 @@
         <aside class="lg:w-1/3 lg:h-screen lg:overflow-y-scroll py-24 px-10">
             <ShoppingCart />
         </aside>
+
+        <Alert v-if="cart.hasMessage">
+            {{ cart.message }}
+        </Alert>
     </main>
 </template>
